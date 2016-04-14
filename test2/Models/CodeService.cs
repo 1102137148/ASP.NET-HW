@@ -22,6 +22,7 @@ namespace test2.Models
             return
                 System.Configuration.ConfigurationManager.ConnectionStrings["DBConn"].ConnectionString.ToString();
         }
+
         /// <summary>
         /// 取得產品
         /// </summary>
@@ -29,7 +30,7 @@ namespace test2.Models
         public List<SelectListItem> GetProduct()
         {
             DataTable dt = new DataTable();
-            string sql = @"Select Productid As CodeId,Productname As CodeName From Production.Products";
+            string sql = @"Select ProductId As CodeId,ProductName As CodeName From Production.Products";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
@@ -40,6 +41,7 @@ namespace test2.Models
             }
             return this.MapCodeData(dt);
         }
+
         /// <summary>
         /// 取得員工資料
         /// </summary>
@@ -59,6 +61,7 @@ namespace test2.Models
             }
             return this.MapCodeData(dt);
         }
+
         /// <summary>
         /// 取得客戶資料
         /// </summary>
@@ -67,7 +70,7 @@ namespace test2.Models
         {
             prid = id;
             DataTable dt = new DataTable();
-            string sql = @"Select CustomerId As CodeId,CompanyName As CodeName FROM Sales.Customers";
+            string sql = @"Select CustomerID As CodeId,CompanyName As CodeName FROM Sales.Customers";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
@@ -80,14 +83,14 @@ namespace test2.Models
         }
 
         /// <summary>
-        /// 取得出貨公司資料
+        /// 取得公司資料
         /// </summary>
         /// <returns></returns>
         public List<SelectListItem> GetShipper(int id)
         {
             prid = id;
             DataTable dt = new DataTable();
-            string sql = @"Select ShipperID As CodeId,CompanyName As CodeName FROM Sales.Shippers ";
+            string sql = @"Select ShipperID As CodeId,CompanyName As CodeName FROM Sales.Shippers";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
@@ -107,7 +110,6 @@ namespace test2.Models
         private List<SelectListItem> MapCodeData(DataTable dt)
         {
             List<SelectListItem> result = new List<SelectListItem>();
-
 
             foreach (DataRow row in dt.Rows)
             {
