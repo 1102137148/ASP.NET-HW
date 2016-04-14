@@ -27,14 +27,14 @@
                     @Html.LabelFor(model => model.CustId)
                 </td>
                 <td colspan="3">
-                    @Html.DropDownList("CustId", (List<SelectListItem>)ViewBag.CustCodeData,"請選擇")
+                    @Html.DropDownList("CustId", (List<SelectListItem>)ViewBag.CustCodeData, "請選擇")
                     @Html.ValidationMessageFor(model => model.CustId)
                 </td>
             </tr>
             <tr>
                 <td>@Html.LabelFor(model => model.EmpId)</td>
-                <td>
-                    @Html.DropDownList("EmpId", (List<SelectListItem>)ViewBag.EmpCodeData, "請選擇")
+                <td >
+                    @Html.DropDownList("EmpId", (List<SelectListItem>)ViewBag.EmpCodeData)
                     @Html.ValidationMessageFor(model => model.EmpId)
                 </td>
             </tr>
@@ -62,7 +62,7 @@
             <tr>
                 <td>@Html.LabelFor(model => model.ShipperId)</td>
                 <td>
-                    @Html.DropDownList("ShipperId", (List<SelectListItem>)ViewBag.ShipCodeData,"請選擇")
+                    @Html.DropDownList("ShipperId", (List<SelectListItem>)ViewBag.ShipCodeData)
                     @Html.ValidationMessageFor(model => model.ShipperId)
                 </td>
                 <td>@Html.LabelFor(model => model.Freight)</td>

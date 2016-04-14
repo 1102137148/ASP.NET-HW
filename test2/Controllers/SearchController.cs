@@ -27,11 +27,7 @@ namespace test2.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 取得訂單查詢結果
-        /// </summary>
-        /// <param name="arg"></param>
-        /// <returns></returns>
+
 
         [HttpPost()]
         public ActionResult SearchOrder(Models.SearchOrderArg sorder)
@@ -46,7 +42,6 @@ namespace test2.Controllers
             //Models.OrderService orderservice = new Models.OrderService();
             //List<Models.Order> result = orderservice.GetOrderByCondtioin(sorder);
             //ViewBag.searchresult = result;
-
             ViewBag.EmpCodeData = this.codeService.GetEmp(-1);
             ViewBag.ShipCodeData = this.codeService.GetShipper(-1);
             ViewBag.SearchResult = orderService.GetOrderByCondtioin(sorder);
@@ -96,7 +91,6 @@ namespace test2.Controllers
             ViewBag.EmpCodeData = this.codeService.GetEmp(Convert.ToInt32(order.EmpId));
             ViewBag.ShipCodeData = this.codeService.GetShipper(Convert.ToInt32(order.ShipperId));
             ViewBag.CustCodeData = this.codeService.GetCustomer(Convert.ToInt32(order.CustId));
-
             ViewBag.OrderDate = string.Format("{0:yyyy-MM-dd}", order.OrderDate);
             ViewBag.RequireDdate = string.Format("{0:yyyy-MM-dd}", order.RequiredDate);
             ViewBag.ShippedDate = string.Format("{0:yyyy-MM-dd}", order.ShippedDate);
@@ -105,7 +99,7 @@ namespace test2.Controllers
         }
 
         /// <summary>
-        /// 更新訂單Action
+        /// 更新訂單
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -114,7 +108,7 @@ namespace test2.Controllers
             orderService.UpdateOrder(order);
             ViewBag.EmpCodeData = this.codeService.GetEmp(-1);
             ViewBag.ShipCodeData = this.codeService.GetShipper(-1);
-            return RedirectToAction("SearchOrder");
+            return RedirectToAction("SearchOrder"); ;
         }
 
         /// <summary>
@@ -148,7 +142,7 @@ namespace test2.Controllers
         {
             return PartialView("_SysDatePartial");
         }
-        
-        
+
+
     }
 }
