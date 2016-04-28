@@ -1,15 +1,12 @@
 ﻿@model test2.Models.Order
 
-
 @{
-    ViewBag.Title="新增訂單";
-    Layout = null;
-    Styles.Render("~/Content/css");
-    Scripts.Render("~/bundles/modernizr");
+    ViewBag.Title = "新增訂單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Styles.Render("~/Content/css");
+    //Scripts.Render("~/bundles/modernizr");
 }
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -22,12 +19,10 @@
     <form action="/Search/InsertOrder" method="post">
         <input name="__RequestVerificationToken" type="hidden" value="l68Zc9_aWnYjYe0izIBsqenR1z2HQPH5M6jrYE1gOeIqFvdDdAPkY1tDBQ5BYTpNPRvTxahAmRSRAxLWb9R4f1ADbv0Eqx-TNnjVvaMNEcA1" />
         <div class="form-horizontal">
-
             <div class="container">
                 <h4>新增訂單</h4>
             </div>
             <hr />
-
             <div class="container">
                 <table class="table table-bordered">
                     <tr>
@@ -39,7 +34,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <td>負責員工名稱</td>
                         <td colspan="3">
@@ -48,7 +42,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <td>訂購日期</td>
                         <td>
@@ -63,7 +56,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <td>需要日期</td>
                         <td colspan="3">
@@ -72,7 +64,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <td>出貨公司名稱</td>
                         <td colspan="3">
@@ -81,7 +72,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <td>運費</td>
                         <td colspan="3">
@@ -90,7 +80,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <td>出貨國家</td>
                         <td>
@@ -105,7 +94,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <td>出貨地區</td>
                         <td>
@@ -120,7 +108,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <td>出貨地址</td>
                         <td>
@@ -135,7 +122,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <td>訂單金額總計</td>
                         <td colspan="3">
@@ -144,7 +130,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <td></td>
                         <td colspan="3">
@@ -154,35 +139,36 @@
                             </div>
                         </td>
                     </tr>
-
-                </table></div></div></form>
-                <br><br>
-                訂單明細<br>
-                <a id="addNewDetial" href="#">+新增一筆</a>
-                <table class="table table-bordered">
-                    <tr>
-                        <td>商品</td>
-                        <td>單價</td>
-                        <td>數量</td>
-                        <td>小計</td>
-                        <td></td>
-                    </tr>
-                    <tbody id="tbContent">
-                        @for (int i = 0; i < Model.OrderDetails.Count; i++)
-                        {
-                            <tr>
-                                <td>@Html.DropDownListFor(m => Model.OrderDetails[i].ProductId, (List<SelectListItem>)ViewBag.ProductCodeData, "請選擇", new { @class = "ProductId" })</td>
-                                <td>@Html.TextBoxFor(m => Model.OrderDetails[i].UnitPrice, new { @class = "UnitPrice" })</td>
-                                <td>@Html.TextBoxFor(m => Model.OrderDetails[i].Qty, new { @class = "Qty" })</td>
-                                <td></td>
-                                <td><button type="button" class="btnRemove">取消</button></td>
-                            </tr>
-                        }
-                    </tbody>
                 </table>
+            </div>
+        </div>
+    </form>
+    <br><br>
+    訂單明細<br>
+    <a id="addNewDetial" href="#">+新增一筆</a>
+    <table class="table table-bordered">
+        <tr>
+            <td>商品</td>
+            <td>單價</td>
+            <td>數量</td>
+            <td>小計</td>
+            <td></td>
+        </tr>
+        <tbody id="tbContent">
+            @for (int i = 0; i < Model.OrderDetails.Count; i++)
+            {
+                <tr>
+                    <td>@Html.DropDownListFor(m => Model.OrderDetails[i].ProductId, (List<SelectListItem>)ViewBag.ProductCodeData, "請選擇", new { @class = "ProductId" })</td>
+                    <td>@Html.TextBoxFor(m => Model.OrderDetails[i].UnitPrice, new { @class = "UnitPrice" })</td>
+                    <td>@Html.TextBoxFor(m => Model.OrderDetails[i].Qty, new { @class = "Qty" })</td>
+                    <td></td>
+                    <td><button type="button" class="btnRemove">取消</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </body>
 </html>
-
 @section scripts{
     <script type="text/javascript">
         //明細資料範本
@@ -207,6 +193,5 @@
                 $('.UnitPrice').eq(i).attr('name', 'OrderDetails[' + i + '].UnitPrice');
             }
         });
-        </script>
-        }
-
+    </script>
+}
