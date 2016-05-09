@@ -71,8 +71,8 @@ namespace test2.Controllers
         {
             if (ModelState.IsValid)
             {
-                Models.OrderService orderService = new Models.OrderService();
                 int a = orderService.InsertOrder(order);
+
                 return RedirectToAction("SearchOrder");
 
             }
