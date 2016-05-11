@@ -29,19 +29,21 @@
                         <td>客戶名稱</td>
                         <td colspan="3">
                             <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.CustId, (List<SelectListItem>)ViewBag.CustCodeData, "請選擇")
+                                @Html.DropDownListFor(model => model.CustId, (List<SelectListItem>)ViewBag.CustCodeData)
                                 @Html.ValidationMessageFor(model => model.CustId)
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <td>負責員工名稱</td>
                         <td colspan="3">
                             <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.EmpId, (List<SelectListItem>)ViewBag.EmpCodeData, "請選擇")
+                                @Html.DropDownListFor(model => model.EmpId, (List<SelectListItem>)ViewBag.EmpCodeData)
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <td>訂購日期</td>
                         <td>
@@ -56,6 +58,7 @@
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <td>需要日期</td>
                         <td colspan="3">
@@ -64,22 +67,23 @@
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <td>出貨公司名稱</td>
-                        <td colspan="3">
+                        <td>
                             <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.ShipperId, (List<SelectListItem>)ViewBag.ShipCodeData, "請選擇")
+                                @Html.DropDownListFor(model => model.ShipperId, (List<SelectListItem>)ViewBag.ShipCodeData)
                             </div>
                         </td>
-                    </tr>
-                    <tr>
                         <td>運費</td>
-                        <td colspan="3">
+                        <td>
                             <div class="col-md-10">
                                 @Html.TextBoxFor(model => model.Freight)
                             </div>
                         </td>
                     </tr>
+
+
                     <tr>
                         <td>出貨國家</td>
                         <td>
@@ -94,6 +98,7 @@
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <td>出貨地區</td>
                         <td>
@@ -108,6 +113,7 @@
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <td>出貨地址</td>
                         <td>
@@ -122,14 +128,12 @@
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <td>訂單金額總計</td>
-                        <td id="total" colspan="3">
-                            <div class="col-md-10">
-                                0
-                            </div>
-                        </td>
+                        <td id="total" colspan="3">0</td>
                     </tr>
+
                     <tr>
                         <td></td>
                         <td colspan="3">
@@ -158,10 +162,10 @@
             @for (int i = 0; i < Model.OrderDetails.Count; i++)
             {
                 <tr>
-                    <td>@Html.DropDownListFor(m => Model.OrderDetails[i].ProductId, (List<SelectListItem>)ViewBag.ProductCodeData, "請選擇", new { @class = "ProductId" })</td>
-                    <td>@Html.TextBoxFor(m => Model.OrderDetails[i].UnitPrice, new { @class = "UnitPrice" })</td>
-                    <td>@Html.TextBoxFor(m => Model.OrderDetails[i].Qty, new { @class = "Qty" })</td>
-                    <td></td>
+                    <td>@Html.DropDownListFor(m => Model.OrderDetails[i].ProductId, (List<SelectListItem>)ViewBag.ProductCodeData, new { @class = "ProductId" })</td>
+                    <td>@Html.TextBoxFor(m => Model.OrderDetails[i].UnitPrice, new { @class = "UnitPrice", @onchange = "onchangeValue(this)", Type = "number" })</td>
+                    <td>@Html.TextBoxFor(m => Model.OrderDetails[i].Qty, new { @class = "Qty", @onchange = "onchangeValue(this)", Type = "number" })</td>
+                    <td>0</td>
                     <td><button type="button" class="btnRemove">取消</button></td>
                 </tr>
             }

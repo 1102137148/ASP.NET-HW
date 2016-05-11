@@ -56,8 +56,8 @@ namespace test2.Controllers
         {
             ViewBag.CustCodeData = this.codeService.GetCustomer(-1);
             ViewBag.EmpCodeData = this.codeService.GetEmp(-1);
-            ViewBag.ProductCodeData = this.codeService.GetProduct();
             ViewBag.ShipCodeData = this.codeService.GetShipper(-1);
+            ViewBag.ProductCodeData = this.codeService.GetProduct();
             return View(new Models.Order());
         }
 
@@ -95,6 +95,7 @@ namespace test2.Controllers
             ViewBag.OrderDate = string.Format("{0:yyyy-MM-dd}", order.OrderDate);
             ViewBag.RequireDdate = string.Format("{0:yyyy-MM-dd}", order.RequiredDate);
             ViewBag.ShippedDate = string.Format("{0:yyyy-MM-dd}", order.ShippedDate);
+            ViewBag.ProductCodeData = this.codeService.GetProduct();
             ViewBag.OrderData = order;
             return View(new Models.Order());
         }
