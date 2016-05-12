@@ -47,7 +47,7 @@ namespace test2.Models
                     cmd.Parameters.Add(new SqlParameter("@Qty", row.Qty));
                     cmd.Parameters.Add(new SqlParameter("@Discount", row.Discount));
 
-                    result = Convert.ToInt32(cmd.ExecuteScalar());
+                    cmd.ExecuteNonQuery();
                     conn.Close();
                 }
             }

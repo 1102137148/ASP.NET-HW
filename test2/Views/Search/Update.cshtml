@@ -4,10 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>修改訂單</h2>
-@*@using (Html.BeginForm("SearchOrder", "Search", FormMethod.Post, new { id = "Form1" }))*@
 @using (Html.BeginForm())
     {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
 
     <div class="form-horizontal">
         <h4>Order</h4>
@@ -21,13 +21,12 @@
                     @Html.ValidationMessageFor(model => model.OrderId)
                 </td>
             </tr>
-
             <tr>
                 <td>
                     @Html.LabelFor(model => model.CustId)
                 </td>
                 <td colspan="3">
-                    @Html.DropDownList("CustId", (List<SelectListItem>)ViewBag.CustCodeData, "請選擇")
+                    @Html.DropDownList("CustId", (List<SelectListItem>)ViewBag.CustCodeData)
                     @Html.ValidationMessageFor(model => model.CustId)
                 </td>
             </tr>
@@ -46,7 +45,7 @@
                 </td>
                 <td>@Html.LabelFor(model => model.RequiredDate)</td>
                 <td>
-                    @Html.TextBoxFor(model => model.RequiredDate, new { @type = "date", @Value = ViewBag.RequiredDate })
+                    @Html.TextBoxFor(model => model.RequiredDate, new { @type = "date", @Value = ViewBag.RequireDdate })
                     @Html.ValidationMessageFor(model => model.RequiredDate)
                 </td>
             </tr>
@@ -67,7 +66,7 @@
                 </td>
                 <td>@Html.LabelFor(model => model.Freight)</td>
                 <td>
-                    @Html.EditorFor(model => model.Freight, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.OrderData.Freight } })
+                    @Html.EditorFor(model => model.Freight, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.OrderData.Freight, @type = "number" } })
                     @Html.ValidationMessageFor(model => model.Freight)
                 </td>
             </tr>
@@ -111,13 +110,12 @@
                 <td></td>
                 <td>
                     <input type="submit" value="存檔" />
-                    @Html.ActionLink("回前一頁", "SearchOrder")
+                    @Html.ActionLink("回前一頁", "Index")
                 </td>
                 <td></td>
                 <td></td>
             </tr>
         </table>
-
         <a id="addNewDetial" href="#">新增一筆</a>
         <table class="table table-bordered">
             <tr>
@@ -157,7 +155,7 @@
             </tbody>
         </table>
     </div>
-}
+    }
 @section scripts{
     <script type="text/javascript">
         //當數量、單價改變時 重算小計

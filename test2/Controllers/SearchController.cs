@@ -16,6 +16,7 @@ namespace test2.Controllers
         }
         Models.CodeService codeService = new Models.CodeService();
         Models.OrderService orderService = new Models.OrderService();
+        Models.OrderDetailService orderDetailService = new Models.OrderDetailService();
         /// <summary>
         /// 訂單查詢系統
         /// </summary>
@@ -89,6 +90,7 @@ namespace test2.Controllers
         public ActionResult Update(string id)
         {
             Models.Order order = this.orderService.GetOrderById(id);
+            order.OrderDetails = this.orderDetailService.GetOrderByOrderId(id);
             ViewBag.EmpCodeData = this.codeService.GetEmp(Convert.ToInt32(order.EmpId));
             ViewBag.ShipCodeData = this.codeService.GetShipper(Convert.ToInt32(order.ShipperId));
             ViewBag.CustCodeData = this.codeService.GetCustomer(Convert.ToInt32(order.CustId));
@@ -97,7 +99,7 @@ namespace test2.Controllers
             ViewBag.ShippedDate = string.Format("{0:yyyy-MM-dd}", order.ShippedDate);
             ViewBag.ProductCodeData = this.codeService.GetProduct();
             ViewBag.OrderData = order;
-            return View(new Models.Order());
+            return View(order);
         }
 
         /// <summary>
@@ -108,6 +110,7 @@ namespace test2.Controllers
         public ActionResult Update(Models.Order order)
         {
             orderService.UpdateOrder(order);
+            orderDetailService.UpdateOrderDeail(order.OrderDetails, order.OrderId);
             ViewBag.EmpCodeData = this.codeService.GetEmp(-1);
             ViewBag.ShipCodeData = this.codeService.GetShipper(-1);
             return RedirectToAction("SearchOrder"); ;

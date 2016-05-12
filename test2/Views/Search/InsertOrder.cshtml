@@ -47,25 +47,24 @@
                     <tr>
                         <td>訂購日期</td>
                         <td>
-                            <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.OrderDate, new { @type = "date" })
-                            </div>
+                            @Html.TextBoxFor(model => model.OrderDate, new { @type = "date", @Value = @DateTime.Now.ToString("yyyy-MM-dd") })
+                            @Html.ValidationMessageFor(model => model.OrderDate)
                         </td>
                         <td>出貨日期</td>
                         <td>
-                            <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.ShippedDate, new { @type = "date" })
-                            </div>
+                            @Html.TextBoxFor(model => model.RequiredDate, new { @type = "date", @Value = @DateTime.Now.ToString("yyyy-MM-dd") })
+                            @Html.ValidationMessageFor(model => model.RequiredDate)
                         </td>
                     </tr>
 
                     <tr>
                         <td>需要日期</td>
                         <td colspan="3">
-                            <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.RequiredDate, new { @type = "date" })
-                            </div>
+                            @Html.TextBoxFor(model => model.ShippedDate, new { @type = "date", @Value = @DateTime.Now.ToString("yyyy-MM-dd") })
+                            @Html.ValidationMessageFor(model => model.ShippedDate)
                         </td>
+                        <td></td>
+                        <td></td>
                     </tr>
 
                     <tr>
@@ -82,7 +81,6 @@
                             </div>
                         </td>
                     </tr>
-
 
                     <tr>
                         <td>出貨國家</td>
@@ -130,87 +128,83 @@
                     </tr>
 
                     <tr>
-                        <td>訂單金額總計</td>
-                        <td id="total" colspan="3">0</td>
+                        <td><label>訂單金額總計</label></td>
+                        <td id="total">0</td>
+                        <td></td>
+                        <td></td>
                     </tr>
-
                     <tr>
                         <td></td>
-                        <td colspan="3">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="儲存" class="btn btn-default" />
-                                <input type="button" value="回前一頁" class="btn btn-default" onclick="location.href = '/Search/SearchOrder'" />
-                            </div>
+                        <td>
+                            <input type="submit" value="存檔" class="btn btn-default" />
+                            @Html.ActionLink("回前一頁", "SearchOrder")
                         </td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </table>
-            </div>
-        </div>
-    </form>
-    <br><br>
-    訂單明細<br>
-    <a id="addNewDetial" href="#">+新增一筆</a>
-    <table class="table table-bordered">
-        <tr>
-            <td>商品</td>
-            <td>單價</td>
-            <td>數量</td>
-            <td>小計</td>
-            <td></td>
-        </tr>
-        <tbody id="tbContent">
-            @for (int i = 0; i < Model.OrderDetails.Count; i++)
-            {
-                <tr>
-                    <td>@Html.DropDownListFor(m => Model.OrderDetails[i].ProductId, (List<SelectListItem>)ViewBag.ProductCodeData, new { @class = "ProductId" })</td>
-                    <td>@Html.TextBoxFor(m => Model.OrderDetails[i].UnitPrice, new { @class = "UnitPrice", @onchange = "onchangeValue(this)", Type = "number" })</td>
-                    <td>@Html.TextBoxFor(m => Model.OrderDetails[i].Qty, new { @class = "Qty", @onchange = "onchangeValue(this)", Type = "number" })</td>
-                    <td>0</td>
-                    <td><button type="button" class="btnRemove">取消</button></td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</body>
-</html>
+
+                <a id="addNewDetial" href="#">新增一筆</a>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>商品</td>
+                        <td>單價</td>
+                        <td>數量</td>
+                        <td>小計</td>
+                        <td></td>
+                    </tr>
+                    <tbody id="tbContent">
+                        @for (int i = 0; i < Model.OrderDetails.Count; i++)
+                        {
+                            <tr>
+                                <td>@Html.DropDownListFor(m => Model.OrderDetails[i].ProductId, (List<SelectListItem>)ViewBag.ProductCodeData, new { @class = "ProductId" })</td>
+                                <td>@Html.TextBoxFor(m => Model.OrderDetails[i].UnitPrice, new { @class = "UnitPrice", @onchange = "onchangeValue(this)", Type = "number" })</td>
+                                <td>@Html.TextBoxFor(m => Model.OrderDetails[i].Qty, new { @class = "Qty", @onchange = "onchangeValue(this)", Type = "number" })</td>
+                                <td>0</td>
+                                <td><button type="button" class="btnRemove">取消</button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
 @section scripts{
-    <script type="text/javascript">
-
-        //當數量、單價改變時 重算小計
-        function onchangeValue(e) {
-            var price = e.parentNode.parentNode.childNodes[3].childNodes[0].value;
-            var qty = e.parentNode.parentNode.childNodes[5].childNodes[0].value;
-            var subtotal = e.parentNode.parentNode.childNodes[7];
-            subtotal.innerHTML = price * qty;
-            var sum = 0;
-            for (var i = 0 ; i < $('#tbContent tr').length; i++) {
-                sum += $('.Qty').eq(i).val() * $('.UnitPrice').eq(i).val();
-            }
-            $("#total").html(sum);
-            console.log(sum);
+<script type="text/javascript">
+    //當數量、單價改變時 重算小計
+    function onchangeValue(e) {
+        var price = e.parentNode.parentNode.childNodes[3].childNodes[0].value;
+        var qty = e.parentNode.parentNode.childNodes[5].childNodes[0].value;
+        var subtotal = e.parentNode.parentNode.childNodes[7];
+        subtotal.innerHTML = price * qty;
+        var sum = 0;
+        for (var i = 0 ; i < $('#tbContent tr').length; i++) {
+            sum += $('.Qty').eq(i).val() * $('.UnitPrice').eq(i).val();
         }
+        $("#total").html(sum);
+        console.log(sum);
+    }
 
-        //明細資料範本
-        var trtemplate = $('#tbContent tr').eq(0).html();
+    //明細資料範本
+    var trtemplate = $('#tbContent tr').eq(0).html();
 
-        //新增一列名資料
-        $("#addNewDetial").click(function (e) {
-            $('#tbContent').append('<tr>' + trtemplate + '</tr>');
-        });
+    //新增一列名資料
+    $("#addNewDetial").click(function (e) {
+        $('#tbContent').append('<tr>' + trtemplate + '</tr>');
+    });
 
-        //移除TR
-        $('#tbContent').on('click', '.btnRemove', function () {
-            if ($('#tbContent tr').length > 1)
-                $(this).closest('tr').remove();
-        });
+    //移除TR
+    $('#tbContent').on('click', '.btnRemove', function () {
+        if ($('#tbContent tr').length > 1)
+            $(this).closest('tr').remove();
+    });
 
-        //表單送出前置換element name 讓Action 可以讀到OrderDetials
-        $('form').submit(function () {
-            for (var i = 0 ; i < $('#tbContent tr').length; i++) {
-                $('.ProductId').eq(i).attr('name', 'OrderDetails[' + i + '].ProductId');
-                $('.Qty').eq(i).attr('name', 'OrderDetails[' + i + '].Qty');
-                $('.UnitPrice').eq(i).attr('name', 'OrderDetails[' + i + '].UnitPrice');
-            }
-        });
-    </script>
+    //表單送出前置換element name 讓Action 可以讀到OrderDetials
+    $('form').submit(function () {
+        for (var i = 0 ; i < $('#tbContent tr').length; i++) {
+            $('.ProductId').eq(i).attr('name', 'OrderDetails[' + i + '].ProductId');
+            $('.Qty').eq(i).attr('name', 'OrderDetails[' + i + '].Qty');
+            $('.UnitPrice').eq(i).attr('name', 'OrderDetails[' + i + '].UnitPrice');
+        }
+    });
+                </script>
+
 }
