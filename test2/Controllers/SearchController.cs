@@ -14,37 +14,33 @@ namespace test2.Controllers
         {
             return View();
         }
+
         Models.CodeService codeService = new Models.CodeService();
         Models.OrderService orderService = new Models.OrderService();
         Models.OrderDetailService orderDetailService = new Models.OrderDetailService();
+
         /// <summary>
         /// 訂單查詢系統
         /// </summary>
         /// <returns></returns>
         public ActionResult SearchOrder()
         {
-            ViewBag.EmpCodeData = this.codeService.GetEmp(-1);
-            ViewBag.ShipCodeData = this.codeService.GetShipper(-1);
+            ViewBag.EmpCodeData = this.codeService.GetEmp();
+            ViewBag.ShipCodeData = this.codeService.GetShipper();
             return View();
         }
 
 
-
+        /// <summary>
+        /// 訂單查詢結果
+        /// </summary>
+        /// <param name="sorder"></param>
+        /// <returns></returns>
         [HttpPost()]
         public ActionResult SearchOrder(Models.SearchOrderArg sorder)
         {
-            //Models.OrderService orderService = new Models.OrderService();
-            //ViewBag.EmpCodeData = this.codeService.GetEmp(-1);
-            //ViewBag.EmpResult = orderService.GetOrderByCondtioin(sorder);
-
-            //ViewBag.ShipCodeData = this.codeService.GetShipper(-1);
-            //ViewBag.ShipperResult = orderService.GetOrderByCondtioin(sorder);
-
-            //Models.OrderService orderservice = new Models.OrderService();
-            //List<Models.Order> result = orderservice.GetOrderByCondtioin(sorder);
-            //ViewBag.searchresult = result;
-            ViewBag.EmpCodeData = this.codeService.GetEmp(-1);
-            ViewBag.ShipCodeData = this.codeService.GetShipper(-1);
+            ViewBag.EmpCodeData = this.codeService.GetEmp();
+            ViewBag.ShipCodeData = this.codeService.GetShipper();
             ViewBag.SearchResult = orderService.GetOrderByCondtioin(sorder);
             return View("SearchOrder");
         }
@@ -55,15 +51,15 @@ namespace test2.Controllers
         [HttpGet()]
         public ActionResult InsertOrder()
         {
-            ViewBag.CustCodeData = this.codeService.GetCustomer(-1);
-            ViewBag.EmpCodeData = this.codeService.GetEmp(-1);
-            ViewBag.ShipCodeData = this.codeService.GetShipper(-1);
+            ViewBag.CustCodeData = this.codeService.GetCustomer();
+            ViewBag.EmpCodeData = this.codeService.GetEmp();
+            ViewBag.ShipCodeData = this.codeService.GetShipper();
             ViewBag.ProductCodeData = this.codeService.GetProduct();
             return View(new Models.Order());
         }
 
         /// <summary>
-        /// 新增訂單
+        /// 新增訂單Action
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
@@ -73,7 +69,6 @@ namespace test2.Controllers
             if (ModelState.IsValid)
             {
                 int a = orderService.InsertOrder(order);
-                Models.OrderDetailService orderDetailService = new Models.OrderDetailService();
                 orderDetailService.InsertOrderDetail(order.OrderDetails, a);
                 return RedirectToAction("SearchOrder");
 
@@ -91,9 +86,9 @@ namespace test2.Controllers
         {
             Models.Order order = this.orderService.GetOrderById(id);
             order.OrderDetails = this.orderDetailService.GetOrderByOrderId(id);
-            ViewBag.EmpCodeData = this.codeService.GetEmp(Convert.ToInt32(order.EmpId));
-            ViewBag.ShipCodeData = this.codeService.GetShipper(Convert.ToInt32(order.ShipperId));
-            ViewBag.CustCodeData = this.codeService.GetCustomer(Convert.ToInt32(order.CustId));
+            ViewBag.EmpCodeData = this.codeService.GetEmp();
+            ViewBag.ShipCodeData = this.codeService.GetShipper();
+            ViewBag.CustCodeData = this.codeService.GetCustomer();
             ViewBag.OrderDate = string.Format("{0:yyyy-MM-dd}", order.OrderDate);
             ViewBag.RequireDdate = string.Format("{0:yyyy-MM-dd}", order.RequiredDate);
             ViewBag.ShippedDate = string.Format("{0:yyyy-MM-dd}", order.ShippedDate);
@@ -111,8 +106,8 @@ namespace test2.Controllers
         {
             orderService.UpdateOrder(order);
             orderDetailService.UpdateOrderDeail(order.OrderDetails, order.OrderId);
-            ViewBag.EmpCodeData = this.codeService.GetEmp(-1);
-            ViewBag.ShipCodeData = this.codeService.GetShipper(-1);
+            ViewBag.EmpCodeData = this.codeService.GetEmp();
+            ViewBag.ShipCodeData = this.codeService.GetShipper();
             return RedirectToAction("SearchOrder"); ;
         }
 
@@ -126,17 +121,33 @@ namespace test2.Controllers
         {
             try
             {
-                Models.OrderService orderService = new Models.OrderService();
-                orderService.DeleteOrderById(orderId);
+                orderDetailService.DeleteOrderDetail(orderId);
+                orderService.DeleteOrderById(orderId);                
                 return this.Json(true);
             }
             catch (Exception)
             {
-
                 return this.Json(false);
             }
+        }
 
-
+        /// <summary>
+        /// 依訂單ID跟產品ID刪除訂單明細
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        [HttpPost()]
+        public JsonResult DeleteOrderDetail(string orderId, string productId)
+        {
+            try
+            {
+                orderDetailService.DeleteOrderDetailByProductId(orderId, productId);
+                return this.Json(true);
+            }
+            catch (Exception)
+            {
+                return this.Json(false);
+            }
         }
 
         /// <summary>

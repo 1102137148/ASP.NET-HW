@@ -1,154 +1,97 @@
-﻿@model test2.Models.SearchOrderArg
-
+﻿@model test2.Models.Order
 @{
-    ViewBag.Title = "查詢訂單";
-    Layout = null;
-    Styles.Render("~/Content/css");
-    Scripts.Render("~/bundles/modernizr");
+    ViewBag.Title = "SearchOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Styles.Render("~/Content/css");
+    //Scripts.Render("~/bundles/modernizr");
 }
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>SearchOrder</title>
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-
-</head>
-
-<body>
-    <form action="/Search/SearchOrder" method="post">
-        <input name="__RequestVerificationToken" type="hidden" value="1jFPtlYIJJv-KkkFb9PETsNDTLe9PMSdBftwN8o28c6YhWVj4EBATMJZa6vdr8Sx9_OIi5dOLFGTAygz0bvfvVE4hayoaLk9jlaCouhZJ2w1" />        <div class="form-horizontal">
-            <div class="container">
-                <h4>訂單查詢</h4>
-            </div>
-            <hr />
-
-            <div class="container">
-                <table class="table table-bordered">
-                    <tr>
-                        <td>訂單編號</td>
-                        <td colspan="3">
-                            <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.OrderId)
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>客戶名稱</td>
-                        <td colspan="3">
-                            <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.CustName)
-                            </div>
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <td>員工名稱</td>
-                        <td colspan="3">
-                            <div class="col-md-10">
-
-                                @Html.DropDownListFor(model => model.EmpId, (List<SelectListItem>)ViewBag.EmpCodeData, "請選擇")
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>出貨公司</td>
-                        <td colspan="3">
-                            <div class="col-md-10">
-
-                                @Html.DropDownListFor(model => model.ShipperId, (List<SelectListItem>)ViewBag.ShipCodeData, "請選擇")
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><label class="" for="OrderDate">訂購日期</label></td>
-                        <td>
-                            <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.OrderDate, new { @type = "date" })
-                            </div>
-                        </td>
-                        <td>出貨日期</td>
-                        <td>
-                            <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.ShippedDate, new { @type = "date" })
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>需要日期</td>
-                        <td colspan="3">
-                            <div class="col-md-10">
-                                @Html.TextBoxFor(model => model.RequireDdate, new { @type = "date" })
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td></td>
-                        <td colspan="3">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="查詢" class="btn btn-default" />
-                                <input type="reset" value="清除" class="btn btn-default" />
-                                <input type="button" value="新增訂單" class="btn btn-default" onclick="location.href = '/Search/InsertOrder'" />
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-        </div>
-    </form>
-
-
-    <div>
-    </div>
-    <br><br>
-    <div>
-        <div class="container" id="SearchResultSection">
-            @if (ViewBag.searchresult != null)
-            {
-                <table class="table table-bordered table-striped">
-                    <tr>
-                        <td>訂單編號</td>
-                        <td>客戶名稱</td>
-                        <td>訂購日期</td>
-                        <td>發貨日期</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    @foreach (var item in ViewBag.searchresult)
-                    {
-                        <tr id='@item.OrderId'>
-                            <td>@item.OrderId</td>
-                            <td>@item.CustName</td>
-                            <td>@item.OrderDate</td>
-                            <td>@item.ShippedDate</td>
-                            <td>@Html.ActionLink("修改", "Update", new { id = item.OrderId })</td>
-                            <td>
-                                <a class="btnDelete" href="#">刪除</a>
-                                <input class="hidOrderId" type="hidden" value='@item.OrderId' />
-                            </td>
-                        </tr>
-                    }
-
-
-                </table>
-            }
-
-
-        </div>
+<h2>訂單查詢</h2>
+@using (Html.BeginForm("SearchOrder", "Search", FormMethod.Post, new { id = "Form1" }))
+{
+    <div id="SearchConditionSection">
+        <hr />
+        <table class="table table-bordered">
+            <tr>
+                <td>訂單編號</td>
+                <td colspan="3">
+                    @Html.TextBoxFor(model => model.OrderId)
+                </td>
+            </tr>
+            <tr>
+                <td>客戶名稱</td>
+                <td colspan="3">
+                    @Html.TextBoxFor(model => model.CustName)
+                </td>
+            </tr>
+            <tr>
+                <td>負責員工</td>
+                <td colspan="3">
+                    @Html.DropDownListFor(model => model.EmpId, (List<SelectListItem>)ViewBag.EmpCodeData, "請選擇")
+                </td>
+            </tr>
+            <tr>
+                <td>出貨公司</td>
+                <td colspan="3">
+                    @Html.DropDownListFor(model => model.ShipperId, (List<SelectListItem>)ViewBag.ShipCodeData, "請選擇")
+                </td>
+            </tr>
+            <tr>
+                <td>訂購日期</td>
+                <td>
+                    @Html.TextBoxFor(model => model.OrderDate, new { @type = "date" })
+                </td>
+                <td>出貨日期</td>
+                <td>
+                    @Html.TextBoxFor(model => model.ShippedDate, new { @type = "date" })
+                </td>
+            </tr>
+            <tr>
+                <td>需要日期</td>
+                <td colspan="3">
+                    @Html.TextBoxFor(model => model.RequiredDate, new { @type = "date" })
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="3">
+                    <input type="submit" value="查詢" class="btn btn-default" />
+                    <input type="reset" value="清除" class="btn btn-default" />
+                    <input type="button" value="新增訂單" class="btn btn-default" onclick="location.href = '/Search/InsertOrder'" />
+                </td>
+            </tr>
+        </table>
     </div>
 
-</body>
-</html>
+    <div id="SearchResultSection">
+        @if (ViewBag.SearchResult != null)
+        {
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>訂單編號</td>
+                    <td>客戶名稱</td>
+                    <td>訂購日期</td>
+                    <td>發貨日期</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                @foreach (var item in (List<test2.Models.Order>)ViewBag.SearchResult)
+                {
+                    <tr id='@item.OrderId'>
+                        <td>@item.OrderId</td>
+                        <td>@item.CustName</td>
+                        <td>@item.OrderDate</td>
+                        <td>@item.ShippedDate</td>
+                        <td>@Html.ActionLink("修改", "Update", new { id = item.OrderId })</td>
+                        <td>
+                            <a class="btnDelete" href="#">刪除</a>
+                            <input class="hidOrderId" type="hidden" value='@item.OrderId' />
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+}
 @section scripts{
     <script type="text/javascript">
 
